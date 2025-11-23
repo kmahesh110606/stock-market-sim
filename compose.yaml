@@ -14,15 +14,12 @@ services:
     build: ./server
     volumes:
       - ./server:/app
+    
     ports:
       - 8000:8000
-    environment:
-      - ADMIN_USER=ecell_admin
-      - ADMIN_PASSWORD=ecell_admin
-      - SECRET=insecure_key
-      - DB_URL=postgresql://sms:password@sms-db-1/sms
-      - CACHE_HOST=cache
-      - CACHE_PORT=6379
+      
+    env_file:
+      - ./server/.env.dev
   
   cache:
     image: "redis:alpine"
