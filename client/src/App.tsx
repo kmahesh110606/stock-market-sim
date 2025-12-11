@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 
 import Login from './login/page'
 import Stock from './stock/page'
+import Register from './login/register'
 
 
 const App = () => {
@@ -11,7 +12,8 @@ const App = () => {
 			<main>
 				<RouterProvider router={createBrowserRouter([
 					{ path: "/login/", Component: Login },
-					{ path: "/stocks/", Component: Stock }
+					{ path: "/stocks/", Component: Stock },
+					{ path: "/register/", Component: Register }
 				])} />
 			</main>
 		</>
