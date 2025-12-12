@@ -1,18 +1,15 @@
 import Graph from "./graph"
 import Transact from "./transact"
-import type { Stock as StockType, StockEntry } from "../types"
+import type { Stock as StockType, StockEntry } from "../../types"
 
 const Stock = (props: {
-  balance: number,
   stocks: Record<string, StockType>,
   curr: string,
   entries: Record<string, StockEntry[]>,
   children: React.ReactNode,
-  onRefresh: () => void
 }) => {
 
   const last_entry = props.entries[props.curr].length - 1
-  const currentStock = props.stocks[props.curr]
 
   return (
     <section className='flex flex-col md:flex-row'>
@@ -24,11 +21,7 @@ const Stock = (props: {
         <hr className='my-5' />
         <Transact
           stockId={props.curr}
-          balance={props.balance}
           price={props.entries[props.curr][last_entry].close}
-          long={currentStock?.long}
-          short={currentStock?.short}
-          onComplete={props.onRefresh}
         />
       </div>
     </section>

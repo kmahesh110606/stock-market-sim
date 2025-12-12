@@ -3,6 +3,20 @@ html, body {
     padding: 0; margin: 0; 
     background: #020202;
     color: white;
+    overflow-x: hidden;
+}
+
+#toast {
+    transform: translateX(500px);
+    background: #867201;
+}
+
+#toast.error {
+    background: #bb1515;
+}
+
+#toast.show {
+    transform: translateX(0);
 }
 
 nav {

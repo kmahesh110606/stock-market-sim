@@ -1,13 +1,38 @@
 import { createBrowserRouter, RouterProvider } from 'react-router'
 
-import Login from './login/page'
-import Stock from './stock/page'
+import Login from './pages/login/page'
+import Stock from './pages/stock/page'
+import { useEffect } from 'react'
+import { useAuthStore, useUserStore } from './lib/store'
+import { makeRequest, SERVER_HOST, showMessage } from './lib/utils'
 
 
 const App = () => {
+	const login = useAuthStore(state => state.setLogged)
+	const profile = useUserStore(state => state.update)
+
+	useEffect(() => {
+		const token = localStorage.getItem('token')
+		if (token) {
+			login(true)
+			makeRequest('user', 'GET', undefined, true)
+				.then(res => profile(res["balance"], res["owned"]))
+			
+		}
+
+		const socket = new WebSocket(`ws://${SERVER_HOST}/news/`)
+		socket.onmessage = (ev: MessageEvent) => showMessage(JSON.parse(ev.data).message)
+		socket.onclose = () => { if (socket.readyState === WebSocket.CLOSED) alert("Connection interrupted! Please refresh!") }
+		
+		return () => { if (socket.readyState === WebSocket.OPEN) socket.close() }
+	}, [login, profile])
+
 	return (
 		<>
 			<Navbar />
+			<div id="toast" className="py-3 px-5 absolute transition right-[25px] w-[300px] rounded z-[99999]">
+				Test message
+			</div>
 			<main>
 				<RouterProvider router={createBrowserRouter([
 					{ path: "/login/", Component: Login },
