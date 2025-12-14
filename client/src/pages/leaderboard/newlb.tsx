@@ -1,27 +1,21 @@
-import { useMemo } from "react"
-
-type User = {
-  name: string
-  profit: number
-}
-
-const users: User[] = [
-  { name: "Aarav Mehta", profit: 45200 },
-  { name: "Sneha Reddy", profit: 38900 },
-  { name: "Rahul Sharma", profit: 32150 },
-  { name: "Karthik Iyer", profit: 28700 },
-  { name: "Ananya Singh", profit: 15400 },
-  { name: "Rohit Verma", profit: -4200 }
-]
+import { useEffect, useState } from "react"
+import { makeRequest } from "../../lib/utils"
 
 const Leaderboard = () => {
-  const leaderboard = useMemo(
-    () =>
-      [...users]
-        .sort((a, b) => b.profit - a.profit)
-        .map((u, i) => ({ ...u, rank: i + 1 })),
-    []
-  )
+  const [leaderboard, setLeaderboard] = useState<{name: string, value: number}[]>([])
+
+  useEffect(() => {
+    makeRequest('leaderboard', 'GET', undefined, true)
+      .then(data => {
+        const list: { name: string, value: number }[] = []
+        Object.keys(data).forEach((key) => {
+          list.push({ name: key, value: data[key] })
+        })
+
+        list.sort((a, b) => b.value - a.value)
+        setLeaderboard(list)
+      })
+  }, [])
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#050617] via-gray-900 to-black text-gray-300">
@@ -56,16 +50,16 @@ const Leaderboard = () => {
               </thead>
 
               <tbody>
-                {leaderboard.map(user => (
+                {leaderboard.map((user, index) => (
                   <tr
-                    key={user.rank}
+                    key={index}
                     className="border-b border-gray-700/50 hover:bg-gray-700/30 transition"
                   >
                     <td className="p-5 font-semibold">
-                      {user.rank <= 3 ? (
-                        <span className="text-[#9291ca]">#{user.rank}</span>
+                      {index+1 <= 3 ? (
+                        <span className="text-[#9291ca]">#{index+1}</span>
                       ) : (
-                        <span className="text-gray-400">#{user.rank}</span>
+                        <span className="text-gray-400">#{index+1}</span>
                       )}
                     </td>
 
@@ -75,24 +69,19 @@ const Leaderboard = () => {
 
                     <td
                       className={`p-5 text-right font-semibold ${
-                        user.profit >= 0
+                        user.value >= 0
                           ? "text-emerald-400"
                           : "text-red-400"
                       }`}
                     >
-                      {user.profit >= 0 ? "+" : ""}
-                      {user.profit.toLocaleString()}
+                      {user.value >= 0 ? "+" : ""}
+                      {user.value.toLocaleString()}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
-
-          <p className="text-xs text-gray-500 mt-6">
-            Profits update in real time as trades are executed
-          </p>
         </div>
       </div>
     </div>

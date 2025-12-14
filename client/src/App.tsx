@@ -1,11 +1,12 @@
+import { useEffect } from 'react'
+import { useAuthStore, useUserStore } from './lib/store'
+import { makeRequest, SERVER_HOST, showMessage } from './lib/utils'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 
 import Stock from './pages/stock/page'
 import Portfolio from './pages/portfolio/page'
 import HomePage from './pages/auth/page'
-import { useEffect } from 'react'
-import { useAuthStore, useUserStore } from './lib/store'
-import { makeRequest, SERVER_HOST, showMessage } from './lib/utils'
+import Leaderboard from './pages/leaderboard/newlb'
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
 				<RouterProvider router={createBrowserRouter([
 					{ path: "/stocks/", Component: Stock },
 					{ path: "/portfolio/", Component: Portfolio },
+					{ path: '/leaderboard/', Component: Leaderboard },
 					{ path: "/", Component: HomePage}
 				])} />
 			</main>
