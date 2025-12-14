@@ -14,7 +14,7 @@ const Stock = (props: {
   return (
     <section className='flex flex-col md:flex-row'>
       <div className="w-full md:w-2/3">
-        <Graph data={props.entries[props.curr]} curr={props.curr} />
+        <Graph indicatorData={null} data={props.entries[props.curr]} curr={props.curr} />
       </div>
       <div className="w-full md:w-1/3 flex flex-col flex-wrap justify-center content-center">
         {props.children}
