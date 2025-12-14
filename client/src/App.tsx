@@ -6,8 +6,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 import Stock from './pages/stock/page'
 import Portfolio from './pages/portfolio/page'
 import HomePage from './pages/auth/page'
-import TransactionPage from './pages/transactions/transactions'
-import Leaderboard from './pages/leaderboard/newlb'
+import TransactionPage from './pages/transactions/page'
+import Leaderboard from './pages/leaderboard/page'
 
 
 const App = () => {
@@ -33,9 +33,7 @@ const App = () => {
 	return (
 		<>
 			<Navbar />
-			<div id="toast" className="py-3 px-5 absolute transition right-[25px] w-[300px] rounded z-[99999]">
-				Test message
-			</div>
+			<div id="toast" className="py-3 px-5 absolute transition right-[25px] w-[300px] rounded z-[99999]"></div>
 			<main>
 				<RouterProvider router={createBrowserRouter([
 					{ path: "/stocks/", Component: Stock },
