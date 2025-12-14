@@ -1,4 +1,4 @@
-export const SERVER_HOST = "localhost:8000"
+export const SERVER_HOST = "sms-server-t8ss.onrender.com"
 
 export const makeRequest = async(
     path: string,
@@ -6,7 +6,7 @@ export const makeRequest = async(
     data?: Record<string, unknown>,
     includeAuth: boolean = true
 ) => {
-    const res = await fetch(`http://${SERVER_HOST}/${path}`, {
+    const res = await fetch(`https://${SERVER_HOST}/${path}`, {
         method: method,
         headers: {
             'Content-Type': 'application/json',
