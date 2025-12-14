@@ -1,4 +1,6 @@
 import data.db as db
+from user.models import *
+from stock.models import *
 db.sql.SQLModel.metadata.create_all(db.engine)
 
 

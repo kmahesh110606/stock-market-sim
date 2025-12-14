@@ -12,6 +12,9 @@ class User(BaseModel, table=True):
         hashed_pass = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         super().__init__(username=username, password=hashed_pass, balance=balance) # type: ignore
 
+    def set_password(self, password: str):
+        self.password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
     def verify(self, password: str): return bcrypt.checkpw(password.encode(), self.password.encode())
 
 
