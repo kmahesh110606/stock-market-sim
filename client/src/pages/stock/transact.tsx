@@ -133,8 +133,8 @@ const Transact = ({ stockId, stockName, price }: Props) => {
           units < 1 ||
           units > 100 ||
           (isBuy ?
-            (owned < 0 ? getBuyPrice(owned + units) : getBuyPrice(units)) > userStore.balance :
-            (owned > 0 ? getSellPrice(units - owned) : getSellPrice(units)) > userStore.balance
+            (owned < 0 ? getBuyPrice(price, owned + units) : getBuyPrice(price, units)) > userStore.balance :
+            (owned > 0 ? getSellPrice(price, units - owned) : getSellPrice(price, units)) > userStore.balance
           )
         }
         className={`w-full py-3 rounded-lg font-semibold transition ${
