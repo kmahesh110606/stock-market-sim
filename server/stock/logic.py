@@ -29,7 +29,7 @@ def buy_stock(
 
     
     if units > 0:
-        price = units * per_unit * (1.002 ** units)
+        price = units * per_unit * (1.001 ** units)
         if (user.balance < price):
             return { "valid": False, "message": "Insufficient balance" }
         
@@ -66,14 +66,14 @@ def sell_stock(
     if holding is not None:
         num_units = min(holding.quantity, units)
 
-        price = num_units * per_unit * (0.998 ** num_units)
+        price = num_units * per_unit * ((1/1.001) ** num_units)
 
         user.balance += price
         holding.quantity -= num_units
         units -= num_units
     
     if units > 0:
-        price = units * per_unit * (0.998 ** units)
+        price = units * per_unit * ((1/1.001) ** units)
         if (user.balance < price):
             return { "valid": False, "message": "Insufficient balance" }
         
