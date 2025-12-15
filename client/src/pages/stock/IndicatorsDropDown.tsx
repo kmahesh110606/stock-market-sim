@@ -1,14 +1,35 @@
 import { useState, useRef, useEffect } from "react";
 
-const indicators = [
-  "SMA", "EMA", "DEMA", "TEMA", "RMA", "TRIX", "MMAX",
-  "APO", "ARRON", "BOP", "CCI", "MI", "MACD", "PSAR",
-  "QSTICK", "KDJ", "TYP", "VWMA",
-  "VORTEX", "AO", "CMO", "ICHIMOKU", "PPO", "PVO",
-  "ROC", "RSI", "STOCH", "AB", "ATR", "BB", "BBW", "CE",
-  "DC", "KC", "PO", "TR", "UI",
-  "AD", "CMF", "EMV", "FI", "MFI", "NVI", "OBV", "VPT", "VWAP",
-];
+const indicators: Record<string, string> = {
+  SMA: "Simple Moving Average",
+  EMA: "Exponential Moving Average",
+  DEMA: "Double Exponential Moving Average",
+  TEMA: "Triple Exponential Moving Average",
+
+  TYP: "Typical Price",
+  VWMA: "Volume Weighted Moving Average",
+
+  TRIX: "Triple Exponential Oscillator",
+  APO: "Absolute Price Oscillator",
+  BOP: "Balance of Power",
+
+  ROC: "Rate of Change",
+  RSI: "Relative Strength Index",
+
+  AB: "Acceleration Bands",
+  ATR: "Average True Range",
+  BBW: "Bollinger Bands Width",
+  TR: "True Range",
+  UI: "Ulcer Index",
+
+  EMV: "Ease of Movement",
+  FI: "Force Index",
+  MFI: "Money Flow Index",
+  NVI: "Negative Volume Index",
+  OBV: "On Balance Volume",
+  VPT: "Volume Price Trend",
+};
+
 
 type Props = {
   onSelect: (indicator: string | null) => void;
@@ -22,15 +43,20 @@ const IndicatorsDropdown = ({ onSelect }: Props) => {
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node))
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
+      }
     };
+
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const filtered = indicators.filter((i) =>
-    i.toLowerCase().includes(query.toLowerCase())
+  const filtered = Object.entries(indicators).filter(([_, label]) =>
+    label.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
@@ -39,7 +65,7 @@ const IndicatorsDropdown = ({ onSelect }: Props) => {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full bg-[#070d2d] border border-[#1e2a6b] rounded-lg px-3 py-2 text-sm text-gray-200"
       >
-        {selected ?? "Select Indicator"}
+        {selected ? indicators[selected] : "Select Indicator"}
       </button>
 
       {isOpen && (
@@ -62,17 +88,17 @@ const IndicatorsDropdown = ({ onSelect }: Props) => {
             None
           </div>
 
-          {filtered.map((i) => (
+          {filtered.map(([key, label]) => (
             <div
-              key={i}
+              key={key}
               onClick={() => {
-                setSelected(i);
-                onSelect(i);
+                setSelected(key);
+                onSelect(key);
                 setIsOpen(false);
               }}
               className="px-3 py-2 text-sm hover:bg-[#0b123a] cursor-pointer"
             >
-              {i}
+              {label}
             </div>
           ))}
         </div>
