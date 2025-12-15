@@ -1,4 +1,5 @@
-export const SERVER_HOST = "sms-server-t8ss.onrender.com"
+export const SERVER_HOST = "20.193.154.69:8080"
+// export const SERVER_HOST = "localhost:8000"
 
 export const makeRequest = async(
     path: string,
@@ -9,7 +10,7 @@ export const makeRequest = async(
     const token = localStorage.getItem('token')
     if (includeAuth && !token) return { "detail": { "message": "You are not logged in" } };
 
-    const res = await fetch(`https://${SERVER_HOST}/${path}`, {
+    const res = await fetch(`http://${SERVER_HOST}/${path}`, {
         method: method,
         headers: {
             'Content-Type': 'application/json',
@@ -42,5 +43,14 @@ export const showMessage = (message: string, isError?: boolean) => {
     toast.classList.add("show")
     setTimeout(() => {
         toast.classList.remove("show")
-    }, 1500)
+    }, 3000)
 }
+
+
+const sumGP = (a: number, n: number) => a * (1 - Math.pow(a, n)) / (1 - a)
+
+export const getBuyPrice = (price: number, n: number) =>
+    price * sumGP(1.001, n);
+
+export const getSellPrice = (price: number, n: number) =>
+    price * sumGP(1/1.001, n);
