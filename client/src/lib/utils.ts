@@ -14,7 +14,7 @@ export const makeRequest = async(
         method: method,
         headers: {
             'Content-Type': 'application/json',
-            ...(includeAuth ? { 'user-token': token } : {})
+            ...(includeAuth && token ? { 'user-token': token } : {})
         },
         ...(data ? { body: JSON.stringify(data) } : {})
     })
